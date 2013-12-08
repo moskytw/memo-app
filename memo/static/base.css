@@ -1,0 +1,39 @@
+body {
+    padding: 10px;
+}
+
+a {
+    color: #0000CD;
+    cursor: pointer;
+}
+
+a:hover {
+    color: #0000FF;
+}
+
+.memo {
+    float: left;
+    position: relative;
+    background-color: #FFFACD;
+    width: 200px;
+    height: 200px;
+    border: 1px solid #DAA520;
+    margin: 10px;
+    padding: 10px;
+}
+
+.memo .content {
+    height: 100%;
+    width: 100%;
+}
+
+.memo .delete {
+    font-family: monospace;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 16px;
+    line-height: 16px;
+    width: 16px;
+    text-align: center;
+}
