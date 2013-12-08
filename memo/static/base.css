@@ -3,12 +3,7 @@ body {
 }
 
 a {
-    color: #0000CD;
     cursor: pointer;
-}
-
-a:hover {
-    color: #0000FF;
 }
 
 .memo {
@@ -28,12 +23,17 @@ a:hover {
 }
 
 .memo .delete {
+
     font-family: monospace;
+    color: #A52A2A;
+
     position: absolute;
     top: 0;
     right: 0;
+
     height: 16px;
     line-height: 16px;
     width: 16px;
     text-align: center;
+
 }
