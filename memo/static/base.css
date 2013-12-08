@@ -21,11 +21,6 @@ a {
 
 }
 
-.memo .content {
-    height: 100%;
-    width: 100%;
-}
-
 .memo .delete {
 
     font-family: monospace;
@@ -40,4 +35,9 @@ a {
     width: 16px;
     text-align: center;
 
+}
+
+.memo .content {
+    height: 100%;
+    width: 100%;
 }
