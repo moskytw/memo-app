@@ -1,0 +1,34 @@
+body, h1, h2, h3, h4, p, input, ul, ol, li, dl, dd, dt {
+    margin: 0;
+    padding: 0;
+}
+
+body, h1, h2, h3, h4, input {
+    font-size: 16px;
+}
+
+body, input {
+    font-family:
+        'Hiragino Kaku Gothic Pro', 'Heiti TC', 'LiHei Pro',
+        '微軟正黑體', 'Microsoft JhengHei', '新細明體', 'PMingLiU',
+        Arial, sans-serif;
+}
+
+h1, h2, h3, h4 {
+    font-weight: normal;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+li {
+    list-style: none;
+}
