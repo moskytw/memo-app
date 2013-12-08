@@ -5,6 +5,7 @@
 {%- endblock %}
 
 {%- block scripts %}
+        <script src="/static/memo.js"></script>
         <script>
             $(function () {
                 $(document.body).append((new MemoContainer({{ memos | tojson }})).controller());
