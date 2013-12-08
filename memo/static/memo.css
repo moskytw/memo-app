@@ -1,0 +1,41 @@
+.memo {
+
+    background-color: #FFFACD;
+    width: 200px;
+    height: 200px;
+    border: 1px solid #DAA520;
+    padding: 10px;
+    margin: 10px;
+
+    float: left;
+
+    position: relative; /* for .delete */
+
+}
+
+.memo .delete {
+
+    font-family: monospace;
+    color: #A52A2A;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    height: 16px;
+    line-height: 16px;
+    width: 16px;
+    text-align: center;
+
+}
+
+.memo .content {
+    height: 100%;
+    width: 100%;
+}
+
+.memo-container:after {
+   display: block;
+   clear: both;
+   content: '';
+}

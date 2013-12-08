@@ -1,6 +1,0 @@
-#memos:after {
-    display: block;
-    content: '.';
-    font-size: 0;
-    clear: both;
-}
