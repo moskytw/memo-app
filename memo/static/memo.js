@@ -17,7 +17,6 @@ Memo.template = _.template(
 );
 
 Memo.prototype.remote = function (action) {
-
     var _this = this;
     return $.ajax('/api/memo/'+action, {
         type: 'POST',
@@ -26,13 +25,11 @@ Memo.prototype.remote = function (action) {
     }).done(function(model, textStatus, jqXHR) {
         _this.model = model;
     });
-
 };
 
 Memo.prototype.controller = function() {
 
     var $memo = $(Memo.template(this.model));
-
     var $delete = $memo.children('.delete');
     var $content = $memo.children('.content');
 
@@ -44,7 +41,6 @@ Memo.prototype.controller = function() {
         if (_this.model.memo_id) _this.remote('delete');
         $memo.remove();
     });
-
 };
 
 var MemoContainer = window.MemoContainer = function (memo_models) {
@@ -54,7 +50,6 @@ var MemoContainer = window.MemoContainer = function (memo_models) {
 MemoContainer.prototype.controller = function () {
 
     var $memo_container = $('<section class="memo-container"></section>');
-
     $.each(this.memo_models, function (memo_id, memo_model) {
         $memo_container.append((new Memo(memo_model)).controller());
     });

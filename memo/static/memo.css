@@ -1,5 +1,4 @@
 .memo {
-
     background-color: #FFFACD;
     width: 200px;
     height: 200px;
@@ -11,11 +10,9 @@
     position: relative; /* for .delete */
 
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
-
 }
 
 .memo .delete {
-
     font-family: monospace;
     color: #A52A2A;
 
@@ -29,7 +26,6 @@
     text-align: center;
 
     display: none;
-
 }
 
 .memo:hover .delete {
