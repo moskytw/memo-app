@@ -1,11 +1,10 @@
 (function() {
 
 var Memo = window.Memo = function (model) {
-    this.model = {
+    this.model = $.extend({
         memo_id: null,
         content: null
-    };
-    $.extend(this.model, model);
+    }, model);
 };
 
 Memo.template = _.template(
