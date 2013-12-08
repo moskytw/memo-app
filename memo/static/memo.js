@@ -55,7 +55,7 @@ MemoContainer.prototype.controller = function () {
     });
 
     function append_empty_memo() {
-        $memo_container.append((new Memo()).controller().one('click', function () {
+        $memo_container.append((new Memo()).controller().one('input', function () {
             append_empty_memo();
         }));
     }
