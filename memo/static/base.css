@@ -7,14 +7,18 @@ a {
 }
 
 .memo {
-    float: left;
-    position: relative;
+
     background-color: #FFFACD;
     width: 200px;
     height: 200px;
     border: 1px solid #DAA520;
-    margin: 10px;
     padding: 10px;
+    margin: 10px;
+
+    float: left;
+
+    position: relative; /* for .delete */
+
 }
 
 .memo .content {
