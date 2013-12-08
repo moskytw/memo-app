@@ -1,11 +1,11 @@
 (function() {
 
-var Memo = window.Memo = function (obj) {
-    this.obj = {
+var Memo = window.Memo = function (model) {
+    this.model = {
         memo_id: null,
         content: null
     };
-    $.extend(this.obj, obj);
+    $.extend(this.model, model);
 };
 
 Memo.template = _.template(
@@ -22,28 +22,28 @@ Memo.prototype.remote = function (action) {
     var _this = this;
     return $.ajax('/api/memo/'+action, {
         type: 'POST',
-        data: JSON.stringify(_this.obj),
+        data: JSON.stringify(_this.model),
         contentType: 'application/json'
-    }).done(function(remote_obj, textStatus, jqXHR) {
-        _this.obj = remote_obj;
+    }).done(function(remote_model, textStatus, jqXHR) {
+        _this.model = remote_model;
     });
 
 };
 
 Memo.prototype.controller = function() {
 
-    var $memo = $(Memo.template(this.obj));
+    var $memo = $(Memo.template(this.model));
 
     var $delete = $memo.children('.delete');
     var $content = $memo.children('.content');
 
-    if (this.obj.memo_id === null) {
+    if (this.model.memo_id === null) {
         $delete.hide();
     }
 
     var _this = this;
     $memo.on('input', function() {
-        _this.obj.content = $content.html();
+        _this.model.content = $content.html();
         _this.remote('sync').done(function () {
             $delete.show();
         });
