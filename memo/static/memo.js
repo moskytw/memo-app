@@ -24,8 +24,8 @@ Memo.prototype.remote = function (action) {
         type: 'POST',
         data: JSON.stringify(_this.model),
         contentType: 'application/json'
-    }).done(function(remote_model, textStatus, jqXHR) {
-        _this.model = remote_model;
+    }).done(function(model, textStatus, jqXHR) {
+        _this.model = model;
     });
 
 };

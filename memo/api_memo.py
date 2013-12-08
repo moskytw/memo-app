@@ -24,10 +24,10 @@ def sync():
 @blueprint.route('/delete', methods=['POST'])
 def delete():
 
-    remote_memo = json.loads(request.data)
+    memo = json.loads(request.data)
 
     try:
-        del memo_model.memos[remote_memo['memo_id']]
+        del memo_model.memos[memo['memo_id']]
     except KeyError:
         abort(400)
 
