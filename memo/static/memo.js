@@ -37,15 +37,13 @@ Memo.prototype.controller = function() {
     var $content = $memo.children('.content');
 
     var _this = this;
-    $memo.on('input', function() {
+    return $memo.on('input', function() {
         _this.model.content = $content.html();
         _this.remote('sync');
     }).on('click', '.delete', function(evt) {
         if (_this.model.memo_id) _this.remote('delete');
         $memo.remove();
     });
-
-    return $memo;
 
 };
 
