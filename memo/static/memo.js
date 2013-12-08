@@ -10,7 +10,7 @@ var Memo = window.Memo = function (obj) {
 
 Memo.template = _.template(
     '<article class="memo">'+
-        '<a class="button delete">x</a>'+
+        '<a class="delete">x</a>'+
         '<div class="content" contenteditable>'+
             '<%- content %>'+
         '</div>'+
