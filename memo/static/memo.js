@@ -38,7 +38,7 @@ Memo.prototype.controller = function () {
     }
 
     var _this = this;
-    return $memo.on('input', function () {
+    return $memo.on('input', _.throttle(function () {
         _this.model.content = $content.html();
         var jqXHR = _this.remote('sync');
         if (_this.model.memo_id === null) {
@@ -46,7 +46,7 @@ Memo.prototype.controller = function () {
                 $memo.prepend($delete);
             });
         }
-    }).on('click', '.delete', function (evt) {
+    }, 1000)).on('click', '.delete', function (evt) {
         _this.remote('delete');
         $memo.remove();
     });
