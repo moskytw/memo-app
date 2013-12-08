@@ -37,18 +37,12 @@ Memo.prototype.controller = function() {
     var $delete = $memo.children('.delete');
     var $content = $memo.children('.content');
 
-    if (this.model.memo_id === null) {
-        $delete.hide();
-    }
-
     var _this = this;
     $memo.on('input', function() {
         _this.model.content = $content.html();
-        _this.remote('sync').done(function () {
-            $delete.show();
-        });
+        _this.remote('sync');
     }).on('click', '.delete', function(evt) {
-        _this.remote('delete');
+        if (_this.model.memo_id) _this.remote('delete');
         $memo.remove();
     });
 
