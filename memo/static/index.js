@@ -17,10 +17,11 @@ Index.prototype.render_memos = function (objs) {
 Index.prototype.new_memo = function () {
     var memo = new Memo();
     var _this = this;
-    var $memo = memo.controller().one('click', function () {
-        _this.new_memo();
-    });
-    this.$container.append($memo);
+    this.$container.append(
+        memo.controller().one('click', function () {
+            _this.new_memo();
+        })
+    );
 };
 
 })();
