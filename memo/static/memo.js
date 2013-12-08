@@ -47,4 +47,26 @@ Memo.prototype.controller = function() {
 
 };
 
+var MemoContainer = window.MemoContainer = function (memo_models) {
+    this.memo_models = memo_models;
+};
+
+MemoContainer.prototype.controller = function () {
+
+    var $memo_container = $('<section class="memo-container"></section>');
+
+    $.each(this.memo_models, function (memo_id, memo_model) {
+        $memo_container.append((new Memo(memo_model)).controller());
+    });
+
+    function append_empty_memo() {
+        $memo_container.append((new Memo()).controller().one('click', function () {
+            append_empty_memo();
+        }));
+    }
+    append_empty_memo();
+
+    return $memo_container;
+};
+
 })();

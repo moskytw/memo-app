@@ -5,15 +5,9 @@
 {%- endblock %}
 
 {%- block scripts %}
-        <script src="/static/index.js"></script>
         <script>
             $(function () {
-                var index = new Index($('#memos'));
-                index.render_memos({{ memos | tojson }});
+                $(document.body).append((new MemoContainer({{ memos | tojson }})).controller());
             });
         </script>
 {%- endblock%}
-
-{%- block content %}
-        <div id="memos"></div>
-{%- endblock %}
