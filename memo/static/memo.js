@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
 var Memo = window.Memo = function (model) {
     this.model = $.extend({
@@ -22,22 +22,22 @@ Memo.prototype.remote = function (action) {
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(_this.model)
-    }).done(function(model, textStatus, jqXHR) {
+    }).done(function (model, textStatus, jqXHR) {
         _this.model = model;
     });
 };
 
-Memo.prototype.controller = function() {
+Memo.prototype.controller = function () {
 
     var $memo = $(Memo.template(this.model));
     var $delete = $memo.children('.delete');
     var $content = $memo.children('.content');
 
     var _this = this;
-    return $memo.on('input', function() {
+    return $memo.on('input', function () {
         _this.model.content = $content.html();
         _this.remote('sync');
-    }).on('click', '.delete', function(evt) {
+    }).on('click', '.delete', function (evt) {
         if (_this.model.memo_id) _this.remote('delete');
         $memo.remove();
     });
