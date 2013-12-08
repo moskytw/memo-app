@@ -5,4 +5,4 @@ Underscore.js and content editable feature from HTML5.
 
 Use `python dev-server.py` to run it.
 
-![screenshot](http://github.com/moskytw/memo-app/blob/master/screenshot.png)
+![screenshot](https://raw.github.com/moskytw/memo-app/master/screenshot.png)
