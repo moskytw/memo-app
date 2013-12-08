@@ -33,12 +33,21 @@ Memo.prototype.controller = function () {
     var $delete = $memo.children('.delete');
     var $content = $memo.children('.content');
 
+    if (this.model.memo_id === null) {
+        $delete.remove();
+    }
+
     var _this = this;
     return $memo.on('input', function () {
         _this.model.content = $content.html();
-        _this.remote('sync');
+        var jqXHR = _this.remote('sync');
+        if (_this.model.memo_id === null) {
+            jqXHR.done(function () {
+                $memo.prepend($delete);
+            });
+        }
     }).on('click', '.delete', function (evt) {
-        if (_this.model.memo_id) _this.remote('delete');
+        _this.remote('delete');
         $memo.remove();
     });
 };
