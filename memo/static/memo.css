@@ -27,6 +27,12 @@
     width: 16px;
     text-align: center;
 
+    display: none;
+
+}
+
+.memo:hover .delete {
+    display: block;
 }
 
 .memo .content {
