@@ -75,7 +75,7 @@ Memo.prototype.controller = function (event_name) {
 
         case 'content-input':
 
-            this.model({content: this.$content.html()});
+            this.model({content: this.$content.text()});
 
             if (this._model.memo_id === undefined) {
                 this.remote('create');
