@@ -7,11 +7,11 @@ var Memo = window.Memo = function (obj) {
         content: ''
     }, obj);
 
-    this.$root = $(Memo.template(obj));
+    this.$view = $(Memo.template(obj));
     this.$delete = $('<a class="delete">x</a>');
-    this.$content = this.$root.children('.content');
+    this.$content = this.$view.children('.content');
 
-    this.obj = {};
+    this._model = {};
     this.model(obj);
 
     this.$content.on('input', _.throttle(_.bind(this.controller, this, 'content-input'), 1000))
@@ -27,44 +27,44 @@ Memo.template = _.template(
     '</article>'
 );
 
-Memo.prototype.view = function (changed_obj) {
+Memo.prototype.view = function (model_changed) {
 
-    if (changed_obj === null) {
-        this.$root.remove();
+    if (model_changed === null) {
+        this.$view.remove();
         return;
     }
 
-    if (changed_obj.memo_id != undefined) {
-        this.$root.prepend(this.$delete);
+    if (model_changed.memo_id != undefined) {
+        this.$view.prepend(this.$delete);
     }
 
-    return this.$root;
+    return this.$view;
 
 };
 
-Memo.prototype.model = function (changed_obj) {
+Memo.prototype.model = function (model_changed) {
 
-    if (changed_obj === null) {
+    if (model_changed === null) {
         this.view(null);
         return;
     }
 
-    var real_changed_obj = {};
+    var real_model_changed = {};
     var _this = this;
-    $.each(changed_obj, function(key, value) {
-        if (_this.obj === value) return true;
-        _this.obj[key] = value;
-        real_changed_obj[key] = value;
+    $.each(model_changed, function(key, value) {
+        if (_this._model === value) return true;
+        _this._model[key] = value;
+        real_model_changed[key] = value;
     });
 
-    this.view(real_changed_obj);
+    this.view(real_model_changed);
 };
 
 Memo.prototype.remote = function (action) {
     var _this = this;
-    return $.post('/api/memo/'+action, this.obj)
-    .done(function (changed_obj, textStatus, jqXHR) {
-        _this.model(changed_obj)
+    return $.post('/api/memo/'+action, this._model)
+    .done(function (model_changed, textStatus, jqXHR) {
+        _this.model(model_changed)
     });
 };
 
@@ -76,7 +76,7 @@ Memo.prototype.controller = function (event_name) {
 
             this.model({content: this.$content.html()});
 
-            if (this.obj.memo_id === undefined) {
+            if (this._model.memo_id === undefined) {
                 this.remote('create');
             } else {
                 this.remote('update');
@@ -101,11 +101,11 @@ MemoContainer.prototype.controller = function () {
 
     var $memo_container = $('<section class="memo-container"></section>');
     $.each(this.memo_models, function (memo_id, memo_model) {
-        $memo_container.append((new Memo(memo_model)).$root);
+        $memo_container.append((new Memo(memo_model)).$view);
     });
 
     function append_empty_memo() {
-        $memo_container.append((new Memo()).$root.one('input', function () {
+        $memo_container.append((new Memo()).$view.one('input', function () {
             append_empty_memo();
         }));
     }
