@@ -7,13 +7,16 @@ var Memo = window.Memo = function (obj) {
         content: ''
     }, obj);
 
+    // init view
     this.$view = $(Memo.template(obj));
     this.$delete = $('<a class="delete">x</a>');
     this.$content = this.$view.children('.content');
 
+    // init model
     this._model = {};
     this.model(obj);
 
+    // init controller
     this.$content.on('input', _.throttle(_.bind(this.controller, this, 'content-input'), 1000))
     this.$delete.on('click', _.bind(this.controller, this, 'delete-click'));
 
