@@ -38,8 +38,6 @@ Memo.prototype.view = function (model_changed) {
         this.$view.prepend(this.$delete);
     }
 
-    return this.$view;
-
 };
 
 Memo.prototype.model = function (model_changed) {
