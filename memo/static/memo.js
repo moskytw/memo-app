@@ -6,6 +6,7 @@ var Memo = window.Memo = function (obj) {
         memo_id: undefined,
         content: ''
     }, obj);
+    this.keys_for_remote = ['memo_id', 'content'];
 
     // init view
     this.$view = $(Memo.template(obj));
@@ -69,7 +70,7 @@ Memo.prototype.model = function (model_changed) {
 
 Memo.prototype.remote = function (action) {
     var _this = this;
-    return $.post('/api/memo/'+action, this._model)
+    return $.post('/api/memo/'+action, _.pick(this._model, this.keys_for_remote))
     .done(function (model_changed, textStatus, jqXHR) {
         _this.model(model_changed)
     });
