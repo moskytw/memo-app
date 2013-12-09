@@ -9,7 +9,7 @@ blueprint = Blueprint('api_memo', __name__)
 
 @blueprint.errorhandler((ValueError, KeyError))
 def handle_common_errors(e):
-    return '400 Bad Request', 400
+    return None, 400
 
 @blueprint.route('/<action>', methods=['GET', 'POST'])
 def memo(action):
