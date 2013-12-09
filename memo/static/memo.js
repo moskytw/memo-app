@@ -7,15 +7,6 @@ var Memo = window.Memo = function (model) {
     }, model);
 };
 
-Memo.template = _.template(
-    '<article class="memo">'+
-        '<a class="delete">x</a>'+
-        '<div class="content" contenteditable>'+
-            '<%- content %>'+
-        '</div>'+
-    '</article>'
-);
-
 Memo.prototype.remote = function (action) {
     var _this = this;
     return $.ajax('/api/memo/'+action, {
@@ -26,6 +17,15 @@ Memo.prototype.remote = function (action) {
         _this.model = model;
     });
 };
+
+Memo.template = _.template(
+    '<article class="memo">'+
+        '<a class="delete">x</a>'+
+        '<div class="content" contenteditable>'+
+            '<%- content %>'+
+        '</div>'+
+    '</article>'
+);
 
 Memo.prototype.controller = function () {
 
