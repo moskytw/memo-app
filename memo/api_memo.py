@@ -7,28 +7,40 @@ from .models import memo as memo_model
 
 blueprint = Blueprint('api_memo', __name__)
 
-@blueprint.route('/sync', methods=['POST'])
-def sync():
+@blueprint.errorhandler((ValueError, KeyError))
+def handle_common_errors(e):
+    return '400 Bad Request', 400
 
-    memo = json.loads(request.data)
-    memo_id = memo.get('memo_id')
+@blueprint.route('/<action>', methods=['GET', 'POST'])
+def memo(action):
 
-    if memo_id is None:
+    if action == 'create':
+
+        memo = {}
+
         memo_id = memo['memo_id'] = memo_model.next_memo_id
         memo_model.next_memo_id += 1
 
-    memo_model.memos[memo_id] = memo
+        memo['content'] = request.values['content']
 
-    return jsonify(memo)
+        memo_model.memos[memo_id] = memo
 
-@blueprint.route('/delete', methods=['POST'])
-def delete():
+        return jsonify(memo_id=memo_id)
 
-    memo = json.loads(request.data)
+    elif action == 'read':
+        memo_id = int(request.values['memo_id'])
+        memo = memo_model.memos[memo_id]
+        return jsonify(memo_model.memos[memo_id])
 
-    try:
-        del memo_model.memos[memo['memo_id']]
-    except KeyError:
-        abort(400)
+    elif action == 'update':
+        memo_id = int(request.values['memo_id'])
+        memo = memo_model.memos[memo_id]
+        memo['content'] = request.values['content']
+        return jsonify()
 
-    return jsonify()
+    elif action == 'delete':
+        memo_id = int(request.values['memo_id'])
+        del memo_model.memos[memo_id]
+        return jsonify()
+
+    abort(404)
