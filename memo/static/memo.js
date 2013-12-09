@@ -4,7 +4,8 @@ var Memo = window.Memo = function (obj) {
 
     var obj = $.extend({
         memo_id: undefined,
-        content: ''
+        content: '',
+        status: null
     }, obj);
     this.keys_for_remote = ['memo_id', 'content'];
 
@@ -12,6 +13,7 @@ var Memo = window.Memo = function (obj) {
     this.$view = $(Memo.template(obj));
     this.$delete = $('<a class="delete">x</a>');
     this.$content = this.$view.children('.content');
+    this.$loader = $('<img class="loader" src="/static/loader.gif">');
 
     // init model
     this._model = {};
@@ -48,6 +50,12 @@ Memo.prototype.view = function (model_changed) {
         this.$view.prepend(this.$delete);
     }
 
+    if (model_changed.status === undefined) {
+        this.$view.append(this.$loader);
+    } else {
+        this.$loader.remove();
+    }
+
 };
 
 Memo.prototype.model = function (model_changed) {
@@ -69,11 +77,18 @@ Memo.prototype.model = function (model_changed) {
 };
 
 Memo.prototype.remote = function (action) {
+
+    this.model({status: undefined});
+
     var _this = this;
     return $.post('/api/memo/'+action, _.pick(this._model, this.keys_for_remote))
     .done(function (model_changed, textStatus, jqXHR) {
+        model_changed.status = jqXHR.status;
         _this.model(model_changed)
+    }).fail(function (jqXHR) {
+        _this.model({status: jqXHR.status});
     });
+
 };
 
 Memo.prototype.controller = function (event_name) {
