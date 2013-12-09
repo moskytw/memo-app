@@ -17,8 +17,14 @@ var Memo = window.Memo = function (obj) {
     this.model(obj);
 
     // init controller
-    this.$content.on('input', _.throttle(_.bind(this.controller, this, 'content-input'), 1000))
-    this.$delete.on('click', _.bind(this.controller, this, 'delete-click'));
+
+    this.$content.on('input', _.throttle(
+        _.bind(this.controller, this, 'content-input'),
+    100, {leading: false}));
+
+    this.$delete.on('click',
+        _.bind(this.controller, this, 'delete-click')
+    );
 
 };
 
