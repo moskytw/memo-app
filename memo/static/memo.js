@@ -95,24 +95,18 @@ Memo.prototype.controller = function (event_name) {
 };
 
 var MemoContainer = window.MemoContainer = function (memo_models) {
-    this.memo_models = memo_models;
-};
 
-MemoContainer.prototype.controller = function () {
-
-    var $memo_container = $('<section class="memo-container"></section>');
-    $.each(this.memo_models, function (memo_id, memo_model) {
-        $memo_container.append((new Memo(memo_model)).$view);
+    var $view = this.$view = $('<section class="memo-container"></section>');
+    $.each(memo_models, function (memo_id, memo_model) {
+        $view.append((new Memo(memo_model)).$view);
     });
 
     function append_empty_memo() {
-        $memo_container.append((new Memo()).$view.one('input', function () {
+        $view.append((new Memo()).$view.one('input', function () {
             append_empty_memo();
         }));
     }
     append_empty_memo();
-
-    return $memo_container;
 };
 
 })();
