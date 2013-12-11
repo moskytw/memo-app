@@ -4,6 +4,7 @@
     height: 200px;
     border: 1px solid #DAA520;
     padding: 10px;
+    overflow: scroll;
 
     float: left;
 
