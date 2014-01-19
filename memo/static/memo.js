@@ -39,6 +39,10 @@ Memo.template = _.template(
     '</article>'
 );
 
+Memo.create = function (obj) {
+    return (new Memo(obj))._$view;
+};
+
 Memo.prototype.view = function (model_changed) {
     this._$view.toggleClass('saved', this._model.memo_id !== undefined);
 };
@@ -100,11 +104,11 @@ var MemoContainer = window.MemoContainer = function (memo_models) {
 
     var $view = this._$view = $('<section class="memo-container"></section>');
     $.each(memo_models, function (memo_id, memo_model) {
-        $view.append((new Memo(memo_model))._$view);
+        $view.append(Memo.create(memo_model));
     });
 
     function append_empty_memo() {
-        $view.append((new Memo())._$view.one('input', function () {
+        $view.append(Memo.create().one('input', function () {
             append_empty_memo();
         }));
     }
