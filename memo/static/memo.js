@@ -40,22 +40,10 @@ Memo.template = _.template(
 );
 
 Memo.prototype.view = function (model_changed) {
-
-    if (model_changed === null) {
-        this.$view.remove();
-        return;
-    }
-
     this.$view.toggleClass('saved', this._model.memo_id !== undefined);
-
 };
 
 Memo.prototype.model = function (model_changed) {
-
-    if (model_changed === null) {
-        this.view(null);
-        return;
-    }
 
     var real_model_changed = {};
     var _this = this;
@@ -66,6 +54,10 @@ Memo.prototype.model = function (model_changed) {
     });
 
     this.view(real_model_changed);
+};
+
+Memo.prototype.destory = function () {
+    this.$view.remove();
 };
 
 Memo.prototype.remote = function (action) {
@@ -97,7 +89,7 @@ Memo.prototype.controller = function (event_name) {
 
         case 'delete-click':
 
-            this.model(null);
+            this.destory();
             this.remote('delete');
 
             break;
