@@ -40,9 +40,17 @@
 }
 
 .memo .loader {
+
     position: absolute;
     bottom: 6px;
     right: 6px;
+
+    display: none;
+
+}
+
+.memo.saving .loader {
+    display: block;
 }
 
 .memo-container {

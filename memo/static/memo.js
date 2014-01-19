@@ -11,7 +11,7 @@ var Memo = window.Memo = function (obj) {
     this.$view = $(Memo.template(obj));
     this.$delete = this.$view.children('.delete');
     this.$content = this.$view.children('.content');
-    this.$loader = $('<img class="loader" src="/static/loader.gif">');
+    this.$loader = this.$view.children('.loader');
 
     // init model
     this._model = {};
@@ -35,6 +35,7 @@ Memo.template = _.template(
         '<div class="content" contenteditable>'+
             '<%- content %>'+
         '</div>'+
+        '<img class="loader" src="/static/loader.gif">'+
     '</article>'
 );
 
@@ -68,13 +69,13 @@ Memo.prototype.model = function (model_changed) {
 };
 
 Memo.prototype.remote = function (action) {
-    this.$view.append(this.$loader);
+    this.$view.addClass('saving');
     var _this = this;
     return $.post('/api/memo/'+action, this._model)
     .done(function (model_changed, textStatus, jqXHR) {
         _this.model(model_changed);
     }).always(function () {
-        _this.$loader.remove();
+        _this.$view.removeClass('saving');
     });
 };
 
