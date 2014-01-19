@@ -47,7 +47,7 @@ Memo.prototype.model = function (model_changed) {
 
     var real_model_changed = {};
     var _this = this;
-    $.each(model_changed, function(key, value) {
+    $.each(model_changed, function (key, value) {
         if (_this._model === value) return true;
         _this._model[key] = value;
         real_model_changed[key] = value;
