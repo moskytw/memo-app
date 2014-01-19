@@ -44,7 +44,7 @@ Memo.prototype.view = function (model_changed) {
         return;
     }
 
-    if (model_changed.memo_id != undefined) {
+    if (model_changed.memo_id !== undefined) {
         this.$view.prepend(this.$delete);
     }
 
