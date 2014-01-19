@@ -40,6 +40,7 @@ Memo.template = _.template(
 );
 
 Memo.create = function (obj) {
+    // NOTE: It uses closure to keep reference. Does it cause memory leak?
     return (new Memo(obj))._$view;
 };
 

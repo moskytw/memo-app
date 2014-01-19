@@ -8,6 +8,7 @@
         <script src="/static/memo.js"></script>
         <script>
             $(function () {
+                // NOTE: It uses closure to keep reference. Does it cause memory leak?
                 $(document.body).append((new MemoContainer({{ memos | tojson }}))._$view);
             });
         </script>
