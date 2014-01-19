@@ -30,7 +30,7 @@
     display: none;
 }
 
-.memo:hover .delete {
+.memo.saved:hover .delete {
     display: block;
 }
 
