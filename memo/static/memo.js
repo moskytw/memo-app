@@ -4,7 +4,7 @@ var Memo = window.Memo = function (obj) {
 
     var obj = $.extend({
         memo_id: undefined,
-        content: ''
+        content: undefined
     }, obj);
 
     // init view
@@ -47,24 +47,12 @@ Memo.create = function (obj) {
 };
 
 Memo.prototype.view = function (model_changed) {
+
     this._$view.toggleClass('saved', this._model.memo_id !== undefined);
-};
 
-Memo.prototype.model = function (model_changed) {
-
-    var model_really_changed = {};
-    var _this = this;
-    $.each(model_changed, function (key, value) {
-        if (_this._model === value) return true;
-        _this._model[key] = value;
-        model_really_changed[key] = value;
-    });
-
-    this.view(model_really_changed);
-};
-
-Memo.prototype.destory = function () {
-    this._$view.remove();
+    if (this._model.destroyed === true) {
+        this._$view.remove();
+    }
 };
 
 Memo.prototype.remote = function (action) {
@@ -78,27 +66,41 @@ Memo.prototype.remote = function (action) {
     });
 };
 
+Memo.prototype.model = function (model_changed) {
+
+    var model_really_changed = {};
+    var _this = this;
+    $.each(model_changed, function (key, value) {
+        if (_this._model === value) return true;
+        _this._model[key] = value;
+        model_really_changed[key] = value;
+    });
+
+    if (model_really_changed.content !== undefined) {
+        if (this._model.memo_id === undefined) {
+            this.remote('create');
+        } else {
+            this.remote('update');
+        }
+    }
+
+    if (model_really_changed.destroyed === true) {
+        this.remote('delete');
+    }
+
+    this.view(model_really_changed);
+};
+
 Memo.prototype.controller = function (event_name) {
 
     switch (event_name) {
 
         case 'content-input':
-
             this.model({content: this._$content.text()});
-
-            if (this._model.memo_id === undefined) {
-                this.remote('create');
-            } else {
-                this.remote('update');
-            }
-
             break;
 
         case 'delete-click':
-
-            this.destory();
-            this.remote('delete');
-
+            this.model({destroyed: true});
             break;
     }
 };
