@@ -8,12 +8,14 @@ var Memo = window.Memo = function (obj) {
     }, obj);
 
     // init view
+
     this._$view = $(Memo.template(obj));
     this._$delete = this._$view.children('.delete');
     this._$content = this._$view.children('.content');
     this._$loader = this._$view.children('.loader');
 
     // init model
+
     this._model = {};
     this.model(obj);
 
