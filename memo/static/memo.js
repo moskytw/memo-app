@@ -52,15 +52,15 @@ Memo.prototype.view = function (model_changed) {
 
 Memo.prototype.model = function (model_changed) {
 
-    var real_model_changed = {};
+    var model_really_changed = {};
     var _this = this;
     $.each(model_changed, function (key, value) {
         if (_this._model === value) return true;
         _this._model[key] = value;
-        real_model_changed[key] = value;
+        model_really_changed[key] = value;
     });
 
-    this.view(real_model_changed);
+    this.view(model_really_changed);
 };
 
 Memo.prototype.destory = function () {
