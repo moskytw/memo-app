@@ -68,15 +68,12 @@ Memo.prototype.remote = function (action) {
 
 Memo.prototype.model = function (model_changed) {
 
-    var model_really_changed = {};
     var _this = this;
     $.each(model_changed, function (key, value) {
-        if (_this._model === value) return true;
         _this._model[key] = value;
-        model_really_changed[key] = value;
     });
 
-    if (model_really_changed.content !== undefined) {
+    if (model_changed.content !== undefined) {
         if (this._model.memo_id === undefined) {
             this.remote('create');
         } else {
@@ -84,11 +81,11 @@ Memo.prototype.model = function (model_changed) {
         }
     }
 
-    if (model_really_changed.destroyed === true) {
+    if (model_changed.destroyed === true) {
         this.remote('delete');
     }
 
-    this.view(model_really_changed);
+    this.view(model_changed);
 };
 
 Memo.prototype.controller = function (event_name) {
@@ -96,7 +93,9 @@ Memo.prototype.controller = function (event_name) {
     switch (event_name) {
 
         case 'content-input':
-            this.model({content: this._$content.text()});
+            var content_now = this._$content.text();
+            if (content_now === this._model.content) break;
+            this.model({content: content_now});
             break;
 
         case 'delete-click':
