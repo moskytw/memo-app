@@ -9,10 +9,10 @@ var Memo = window.Memo = function (obj) {
 
     // init view
 
-    this._$view = $(Memo.template(obj));
-    this._$delete = this._$view.children('.delete');
-    this._$content = this._$view.children('.content');
-    this._$loader = this._$view.children('.loader');
+    this.$view = $(Memo.template(obj));
+    this.$delete = this.$view.children('.delete');
+    this.$content = this.$view.children('.content');
+    this.$loader = this.$view.children('.loader');
 
     // init model
 
@@ -21,11 +21,11 @@ var Memo = window.Memo = function (obj) {
 
     // init controller
 
-    this._$content.on('input', _.throttle(
+    this.$content.on('input', _.throttle(
         _.bind(this.controller, this, 'content-input'),
     100, {leading: false}));
 
-    this._$delete.on('click',
+    this.$delete.on('click',
         _.bind(this.controller, this, 'delete-click')
     );
 
@@ -43,26 +43,26 @@ Memo.template = _.template(
 
 Memo.create = function (obj) {
     // NOTE: It uses closure to keep reference. Does it cause memory leak?
-    return (new Memo(obj))._$view;
+    return (new Memo(obj)).$view;
 };
 
 Memo.prototype.view = function (model_changed) {
 
-    this._$view.toggleClass('saved', this._model.memo_id !== undefined);
+    this.$view.toggleClass('saved', this._model.memo_id !== undefined);
 
     if (this._model.destroyed === true) {
-        this._$view.remove();
+        this.$view.remove();
     }
 };
 
 Memo.prototype.remote = function (action) {
-    this._$view.addClass('saving');
+    this.$view.addClass('saving');
     var _this = this;
     return $.post('/api/memo/'+action, this._model)
     .done(function (model_changed, textStatus, jqXHR) {
         _this.model(model_changed);
     }).always(function () {
-        _this._$view.removeClass('saving');
+        _this.$view.removeClass('saving');
     });
 };
 
@@ -93,7 +93,7 @@ Memo.prototype.controller = function (event_name) {
     switch (event_name) {
 
         case 'content-input':
-            var content_now = this._$content.text();
+            var content_now = this.$content.text();
             if (content_now === this._model.content) break;
             this.model({content: content_now});
             break;
@@ -106,7 +106,7 @@ Memo.prototype.controller = function (event_name) {
 
 var MemoContainer = window.MemoContainer = function (memo_models) {
 
-    var $view = this._$view = $('<section class="memo-container"></section>');
+    var $view = this.$view = $('<section class="memo-container"></section>');
     $.each(memo_models, function (memo_id, memo_model) {
         $view.append(Memo.create(memo_model));
     });
