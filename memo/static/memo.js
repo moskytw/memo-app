@@ -41,11 +41,6 @@ Memo.template = _.template(
     '</article>'
 );
 
-Memo.create = function (obj) {
-    // NOTE: It uses closure to keep reference. Does it cause memory leak?
-    return (new Memo(obj)).$view;
-};
-
 Memo.prototype.view = function (model_changed) {
 
     this.$view.toggleClass('saved', this._model.memo_id !== undefined);
@@ -108,11 +103,13 @@ var MemoContainer = window.MemoContainer = function (memo_models) {
 
     var $view = this.$view = $('<section class="memo-container"></section>');
     $.each(memo_models, function (memo_id, memo_model) {
-        $view.append(Memo.create(memo_model));
+        var memo = new Memo(memo_model);
+        $view.append(memo.$view);
     });
 
     function append_empty_memo() {
-        $view.append(Memo.create().one('input', function () {
+        var memo = new Memo();
+        $view.append(memo.$view.one('input', function () {
             append_empty_memo();
         }));
     }
