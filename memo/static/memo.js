@@ -9,7 +9,7 @@ var Memo = window.Memo = function (obj) {
 
     // init view
 
-    this.$view = $(Memo.template(obj));
+    this.$view = $(Memo.template());
     this.$delete = this.$view.children('.delete');
     this.$content = this.$view.children('.content');
     this.$loader = this.$view.children('.loader');
@@ -35,7 +35,6 @@ Memo.template = _.template(
     '<article class="memo">'+
         '<a class="delete">x</a>'+
         '<div class="content" contenteditable>'+
-            '<%- content %>'+
         '</div>'+
         '<img class="loader" src="/static/loader.gif">'+
     '</article>'
@@ -44,6 +43,10 @@ Memo.template = _.template(
 Memo.prototype.view = function (model_changed) {
 
     this.$view.toggleClass('saved', this._model.memo_id !== undefined);
+
+    if (model_changed.content) {
+        this.$content.html(model_changed.content);
+    }
 
     if (this._model.destroyed === true) {
         this.$view.remove();
