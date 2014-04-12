@@ -4,7 +4,7 @@ var Memo = window.Memo = function (obj) {
 
     // init view
 
-    this.$view = $(Memo.template());
+    this.$view = $(Memo.template);
     this.$delete = this.$view.children('.delete');
     this.$content = this.$view.children('.content');
     this.$loader = this.$view.children('.loader');
@@ -28,7 +28,7 @@ var Memo = window.Memo = function (obj) {
     this.model(obj || {});
 };
 
-Memo.template = _.template(
+Memo.template = (
     '<article class="memo">'+
         '<a class="delete">x</a>'+
         '<div class="content" contenteditable>'+
