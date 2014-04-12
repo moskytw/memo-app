@@ -15,13 +15,15 @@ var Memo = window.Memo = function (obj) {
 
     // init controller
 
-    this.$content.on('input', _.throttle(
-        _.bind(this.controller, this, 'content-input'),
-    100, {leading: false}));
+    var _this = this;
 
-    this.$delete.on('click',
-        _.bind(this.controller, this, 'delete-click')
-    );
+    this.$content.on('input', _.throttle(function () {
+        _this.controller('content-inputed');
+    }, 100, {leading: false}));
+
+    this.$delete.on('click', function () {
+        _this.controller('delete-clicked');
+    });
 
     // apply defaults
 
@@ -87,13 +89,13 @@ Memo.prototype.controller = function (event_name) {
 
     switch (event_name) {
 
-        case 'content-input':
+        case 'content-inputed':
             var content_now = this.$content.text();
             if (content_now === this._model.content) break;
             this.model({content: content_now});
             break;
 
-        case 'delete-click':
+        case 'delete-clicked':
             this.model({destroyed: true});
             break;
     }
