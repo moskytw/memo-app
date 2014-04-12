@@ -39,12 +39,12 @@ Memo.template = (
     '</article>'
 );
 
-Memo.prototype.view = function (model_changed) {
+Memo.prototype.view = function (view_changes) {
 
     this.$view.toggleClass('saved', this._model.memo_id !== undefined);
 
-    if (model_changed.content !== undefined) {
-        this.$content.html(model_changed.content);
+    if (view_changes.content !== undefined) {
+        this.$content.html(view_changes.content);
     }
 
     if (this._model.destroyed === true) {
@@ -63,14 +63,14 @@ Memo.prototype.remote = function (action) {
     });
 };
 
-Memo.prototype.model = function (model_changed) {
+Memo.prototype.model = function (model_changes) {
 
     var _this = this;
-    $.each(model_changed, function (key, value) {
+    $.each(model_changes, function (key, value) {
         _this._model[key] = value;
     });
 
-    if (model_changed.content !== undefined) {
+    if (model_changes.content !== undefined) {
         if (this._model.memo_id === undefined) {
             this.remote('create');
         } else {
@@ -78,11 +78,11 @@ Memo.prototype.model = function (model_changed) {
         }
     }
 
-    if (model_changed.destroyed === true) {
+    if (model_changes.destroyed === true) {
         this.remote('delete');
     }
 
-    this.view(model_changed);
+    this.view(model_changes);
 };
 
 Memo.prototype.controller = function (event_name) {
