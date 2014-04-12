@@ -2,16 +2,16 @@
 
 var Memo = window.Memo = function (obj) {
 
+    // init model
+
+    this._model = {};
+
     // init view
 
     this.$view = $(Memo.template);
     this.$delete = this.$view.children('.delete');
     this.$content = this.$view.children('.content');
     this.$loader = this.$view.children('.loader');
-
-    // init model
-
-    this._model = {};
 
     // init controller
 
@@ -39,30 +39,6 @@ Memo.template = (
     '</article>'
 );
 
-Memo.prototype.view = function (view_changes) {
-
-    this.$view.toggleClass('saved', this._model.memo_id !== undefined);
-
-    if (view_changes.content !== undefined) {
-        this.$content.html(view_changes.content);
-    }
-
-    if (this._model.destroyed === true) {
-        this.$view.remove();
-    }
-};
-
-Memo.prototype.remote = function (action) {
-    this.$view.addClass('saving');
-    var _this = this;
-    return $.post('/api/memo/'+action, this._model)
-    .done(function (model_changed, textStatus, jqXHR) {
-        _this.model(model_changed);
-    }).always(function () {
-        _this.$view.removeClass('saving');
-    });
-};
-
 Memo.prototype.model = function (model_changes) {
 
     var _this = this;
@@ -83,6 +59,30 @@ Memo.prototype.model = function (model_changes) {
     }
 
     this.view(model_changes);
+};
+
+Memo.prototype.remote = function (action) {
+    this.$view.addClass('saving');
+    var _this = this;
+    return $.post('/api/memo/'+action, this._model)
+    .done(function (model_changed, textStatus, jqXHR) {
+        _this.model(model_changed);
+    }).always(function () {
+        _this.$view.removeClass('saving');
+    });
+};
+
+Memo.prototype.view = function (view_changes) {
+
+    this.$view.toggleClass('saved', this._model.memo_id !== undefined);
+
+    if (view_changes.content !== undefined) {
+        this.$content.html(view_changes.content);
+    }
+
+    if (this._model.destroyed === true) {
+        this.$view.remove();
+    }
 };
 
 Memo.prototype.controller = function (event_name) {
