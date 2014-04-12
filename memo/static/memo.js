@@ -2,11 +2,6 @@
 
 var Memo = window.Memo = function (obj) {
 
-    var obj = $.extend({
-        memo_id: undefined,
-        content: undefined
-    }, obj);
-
     // init view
 
     this.$view = $(Memo.template());
@@ -17,7 +12,6 @@ var Memo = window.Memo = function (obj) {
     // init model
 
     this._model = {};
-    this.model(obj);
 
     // init controller
 
@@ -29,6 +23,9 @@ var Memo = window.Memo = function (obj) {
         _.bind(this.controller, this, 'delete-click')
     );
 
+    // apply defaults
+
+    this.model(obj || {});
 };
 
 Memo.template = _.template(
@@ -44,7 +41,7 @@ Memo.prototype.view = function (model_changed) {
 
     this.$view.toggleClass('saved', this._model.memo_id !== undefined);
 
-    if (model_changed.content) {
+    if (model_changed.content !== undefined) {
         this.$content.html(model_changed.content);
     }
 
